@@ -39,5 +39,5 @@ script:
   - cd build
   - cmake .. -G Ninja -DSTRLEN_BUILD_TESTS=ON
   - ninja -j$(nproc)
-  - ./test
+  - ./test_strlen
   - cd ..

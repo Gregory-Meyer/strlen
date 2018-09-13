@@ -15,7 +15,7 @@ if(STRLEN_BUILD_BENCHMARKS)
 
     include_directories(${benchmark_INCLUDE_DIRS})
 
-    add_executable(bench bench/string_length.cpp)
+    add_executable(bench_strlen bench/string_length.cpp)
     target_link_libraries(bench benchmark benchmark_main Threads::Threads)
 endif()
 
@@ -23,5 +23,5 @@ option(STRLEN_BUILD_TESTS "build tests for strlen" OFF)
 if(STRLEN_BUILD_TESTS)
     include_directories(external/catch2)
 
-    add_executable(test test/main.cpp test/string_length.cpp)
+    add_executable(test_strlen test/main.cpp test/string_length.cpp)
 endif()
