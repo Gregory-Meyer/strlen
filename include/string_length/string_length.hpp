@@ -38,13 +38,33 @@
 
 #include <immintrin.h>
 
+namespace string_length {
+namespace detail {
+
 template <typename T, typename U>
-constexpr T&& byte_cast(U &&u) noexcept {
-    return static_cast<T&&>(*reinterpret_cast<T*>(std::addressof(u)));
+constexpr T& byte_cast(U &u) noexcept {
+    return *reinterpret_cast<T*>(std::addressof(u));
 }
 
+template <typename T, typename U>
+constexpr const T& byte_cast(const U &u) noexcept {
+    return *reinterpret_cast<const T*>(std::addressof(u));
+}
+
+template <typename T, typename U>
+constexpr T&& byte_cast(U &&u) noexcept {
+    return std::move(*reinterpret_cast<T*>(std::addressof(u)));
+}
+
+template <typename T, typename U>
+constexpr const T&& byte_cast(const U &&u) noexcept {
+    return std::move(*reinterpret_cast<const T*>(std::addressof(u)));
+}
+
+} // namespace detail
+
 inline std::size_t string_length(const char *str) noexcept {
-    const auto modulo = byte_cast<std::uintptr_t>(str) % 32;
+    const auto modulo = reinterpret_cast<std::uintptr_t>(str) % 32;
     for (std::size_t i = 0; i < modulo; ++i) {
         if (!str[i]) {
             return i;
@@ -57,7 +77,7 @@ inline std::size_t string_length(const char *str) noexcept {
     for (std::size_t length = modulo;; str += 32, length += 32) {
         const __m256i vec = _mm256_load_si256(reinterpret_cast<const __m256i*>(str));
         const __m256i equal = _mm256_cmpeq_epi8(zeros, vec);
-        const auto mask = byte_cast<unsigned>(_mm256_movemask_epi8(equal));
+        const auto mask = detail::byte_cast<unsigned>(_mm256_movemask_epi8(equal));
 
         if (mask != 0) {
             const auto num_trailing_zeros = __builtin_ctz(mask);
@@ -66,5 +86,7 @@ inline std::size_t string_length(const char *str) noexcept {
         }
     }
 }
+
+} // namespace string_length
 
 #endif

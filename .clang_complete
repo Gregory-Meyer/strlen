@@ -1,3 +1,5 @@
+-I ../../include
+-isystem ../../external/catch2
 -march=native
 -pedantic
 -std=c++17
