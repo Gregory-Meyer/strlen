@@ -29,6 +29,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef STRING_LENGTH_STRING_LENGTH_HPP
+#define STRING_LENGTH_STRING_LENGTH_HPP
+
 #include <cstddef>
 
 #include <memory>
@@ -63,3 +66,5 @@ inline std::size_t string_length(const char *str) noexcept {
         }
     }
 }
+
+#endif
