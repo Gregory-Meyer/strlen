@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Gregory-Meyer/strlen.svg?branch=master)](https://travis-ci.com/Gregory-Meyer/strlen)
+
 A little function to compute the length of a null-terminated string. Almost as fast as my standard
 library's implementation.
 
