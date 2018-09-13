@@ -33,9 +33,7 @@
 
 #include <memory>
 
-#include <emmintrin.h>
 #include <immintrin.h>
-#include <pmmintrin.h>
 
 template <typename T, typename U>
 constexpr T&& byte_cast(U &&u) noexcept {
